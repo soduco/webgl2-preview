@@ -1,0 +1,559 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "@allmaps/render-web-worker-test",
+      "version": "0.0.1",
+      "scripts": {
+        "dev": "svelte-kit dev -p 8475",
+        "build": "svelte-kit build",
+        "package": "svelte-kit package",
+        "preview": "svelte-kit preview",
+        "prepare": "svelte-kit sync",
+        "check": "svelte-check --tsconfig ./tsconfig.json",
+        "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+        "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
+        "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
+      },
+      "devDependencies": {
+        "@sveltejs/adapter-auto": "next",
+        "@sveltejs/kit": "next",
+        "@types/earcut": "^2.1.1",
+        "@types/openlayers": "^4.6.18",
+        "@types/rbush": "^3.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.10.1",
+        "@typescript-eslint/parser": "^5.10.1",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-svelte3": "^3.2.1",
+        "prettier": "^2.5.1",
+        "prettier-plugin-svelte": "^2.5.0",
+        "svelte": "^3.44.0",
+        "svelte-check": "^2.2.6",
+        "svelte-preprocess": "^4.10.1",
+        "tslib": "^2.3.1",
+        "typescript": "~4.6.2"
+      },
+      "type": "module",
+      "dependencies": {
+        "@allmaps/id": "1.0.0-beta.2",
+        "@allmaps/iiif-parser": "1.0.0-beta.0",
+        "@allmaps/render": "1.0.0-beta.0",
+        "@allmaps/transform": "^1.0.0-alpha.6",
+        "earcut": "^2.2.3",
+        "ol": "^6.14.1",
+        "rbush": "^3.0.1"
+      }
+    },
+    "prefix": "/Users/bertspaan/projects/allmaps/render-web-worker-test"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/Users/bertspaan/.pnpm-store/v3",
+    "virtualStoreDir": "/Users/bertspaan/projects/allmaps/render-web-worker-test/node_modules/.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "stage": "resolution_started"
+  },
+  "4 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@types/earcut/2.1.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@types/earcut",
+      "rawSpec": "^2.1.1"
+    }
+  },
+  "5 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@types/openlayers/4.6.18",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@types/openlayers",
+      "rawSpec": "^4.6.18"
+    }
+  },
+  "6 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@types/rbush/3.0.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@types/rbush",
+      "rawSpec": "^3.0.0"
+    }
+  },
+  "7 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@typescript-eslint/eslint-plugin/5.19.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@typescript-eslint/eslint-plugin",
+      "rawSpec": "^5.10.1"
+    }
+  },
+  "8 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@typescript-eslint/parser/5.19.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@typescript-eslint/parser",
+      "rawSpec": "^5.10.1"
+    }
+  },
+  "9 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint/7.32.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint",
+      "rawSpec": "^7.32.0"
+    }
+  },
+  "10 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-config-prettier/8.5.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-config-prettier",
+      "rawSpec": "^8.3.0"
+    }
+  },
+  "11 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/eslint-plugin-svelte3/3.4.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "eslint-plugin-svelte3",
+      "rawSpec": "^3.2.1"
+    }
+  },
+  "12 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/prettier/2.6.2",
+    "wanted": {
+      "dependentId": ".",
+      "name": "prettier",
+      "rawSpec": "^2.5.1"
+    }
+  },
+  "13 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/prettier-plugin-svelte/2.7.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "prettier-plugin-svelte",
+      "rawSpec": "^2.5.0"
+    }
+  },
+  "14 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/svelte/3.47.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "svelte",
+      "rawSpec": "^3.44.0"
+    }
+  },
+  "15 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/svelte-check/2.6.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "svelte-check",
+      "rawSpec": "^2.2.6"
+    }
+  },
+  "16 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/svelte-preprocess/4.10.6",
+    "wanted": {
+      "dependentId": ".",
+      "name": "svelte-preprocess",
+      "rawSpec": "^4.10.1"
+    }
+  },
+  "17 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/tslib/2.3.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "tslib",
+      "rawSpec": "^2.3.1"
+    }
+  },
+  "18 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/typescript/4.6.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "typescript",
+      "rawSpec": "~4.6.2"
+    }
+  },
+  "19 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@allmaps/id/1.0.0-beta.2",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@allmaps/id",
+      "rawSpec": "1.0.0-beta.2"
+    }
+  },
+  "20 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@allmaps/transform/1.0.0-alpha.6",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@allmaps/transform",
+      "rawSpec": "^1.0.0-alpha.6"
+    }
+  },
+  "21 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/earcut/2.2.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "earcut",
+      "rawSpec": "^2.2.3"
+    }
+  },
+  "22 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/ol/6.14.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "ol",
+      "rawSpec": "^6.14.1"
+    }
+  },
+  "23 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/rbush/3.0.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "rbush",
+      "rawSpec": "^3.0.1"
+    }
+  },
+  "24 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/earcut/2.1.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "25 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/earcut/2.1.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "26 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/parser/5.19.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "27 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/parser/5.19.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "28 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/openlayers/4.6.18",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "29 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/openlayers/4.6.18",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "30 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/eslint-plugin/5.19.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "31 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@typescript-eslint/eslint-plugin/5.19.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "32 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/rbush/3.0.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "33 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@types/rbush/3.0.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "34 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-svelte3/3.4.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "35 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-plugin-svelte3/3.4.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "36 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier/8.5.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "37 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint-config-prettier/8.5.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "38 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint/7.32.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "39 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/eslint/7.32.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "40 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier/2.6.2",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "41 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier/2.6.2",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "42 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte/3.47.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "43 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte/3.47.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "44 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier-plugin-svelte/2.7.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "45 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/prettier-plugin-svelte/2.7.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "46 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte-check/2.6.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "47 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte-check/2.6.0",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "48 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/tslib/2.3.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "49 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/tslib/2.3.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "50 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte-preprocess/4.10.6",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "51 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/svelte-preprocess/4.10.6",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "52 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@allmaps/id/1.0.0-beta.2",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "53 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@allmaps/id/1.0.0-beta.2",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "54 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/typescript/4.6.3",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "55 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/typescript/4.6.3",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "56 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@allmaps/transform/1.0.0-alpha.6",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "57 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@allmaps/transform/1.0.0-alpha.6",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "58 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/earcut/2.2.3",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "59 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/earcut/2.2.3",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "60 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/rbush/3.0.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "61 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/rbush/3.0.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "62 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/ol/6.14.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "found_in_store"
+  },
+  "63 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/ol/6.14.1",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "64 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/@sveltejs/adapter-auto/1.0.0-next.37",
+    "wanted": {
+      "dependentId": ".",
+      "name": "@sveltejs/adapter-auto",
+      "rawSpec": "next"
+    }
+  },
+  "65 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@sveltejs/adapter-auto/1.0.0-next.37",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "resolved"
+  },
+  "66 debug pnpm:fetching-progress": {
+    "attempt": 1,
+    "packageId": "registry.npmjs.org/@sveltejs/adapter-auto/1.0.0-next.37",
+    "size": 2444,
+    "status": "started"
+  },
+  "67 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/@sveltejs/adapter-auto/1.0.0-next.37",
+    "requester": "/Users/bertspaan/projects/allmaps/render-web-worker-test",
+    "status": "fetched"
+  },
+  "68 error pnpm": {
+    "code": "ERR_PNPM_NO_MATCHING_VERSION",
+    "packageMeta": {
+      "name": "@allmaps/render",
+      "dist-tags": {
+        "latest": "1.0.0-alpha.3"
+      },
+      "versions": {
+        "1.0.0-alpha.1": {
+          "name": "@allmaps/render",
+          "version": "1.0.0-alpha.1",
+          "dependencies": {
+            "@allmaps/transform": "^1.0.0-alpha.6",
+            "@allmaps/iiif-parser": "^1.0.0-alpha.15",
+            "d3-array": "^3.0.4",
+            "potpack": "^1.0.1"
+          },
+          "devDependencies": {
+            "chai": "^4.3.4",
+            "eslint": "7",
+            "mocha": "^8.3.2"
+          },
+          "dist": {
+            "integrity": "sha512-/aCE9cN+Hhv2OufY9H7/jZGfNFjHzNdK50t+MYz1Z3iT4hnD2/0nHogHcBu2dcMiRCDV49MpOnhks9EMCQhgRA==",
+            "shasum": "ac1745822d3468fd1dae579ee8bf9d4492052840",
+            "tarball": "https://registry.npmjs.org/@allmaps/render/-/render-1.0.0-alpha.1.tgz",
+            "fileCount": 4,
+            "unpackedSize": 5761,
+            "signatures": [
+              {
+                "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+                "sig": "MEYCIQDiRH/pF0lJSuSyEqXKy6vfe4zx7A1KTEs/h3iGRvSNbAIhAI/EEhaEee1+VywmVVVLrd0wGWVGvklP9JLCxhWRFlKS"
+              }
+            ]
+          },
+          "engines": {
+            "node": "^14.13.1 || >=16.0.0"
+          }
+        },
+        "1.0.0-alpha.2": {
+          "name": "@allmaps/render",
+          "version": "1.0.0-alpha.2",
+          "dependencies": {
+            "@allmaps/transform": "^1.0.0-alpha.6",
+            "@allmaps/iiif-parser": "^1.0.0-alpha.15",
+            "d3-array": "^3.0.4",
+            "potpack": "^1.0.1"
+          },
+          "devDependencies": {
+            "chai": "^4.3.4",
+            "eslint": "7",
+            "mocha": "^8.3.2"
+          },
+          "dist": {
+            "integrity": "sha512-oT16V5neRfYSpwJ70BjTGclWD7bT4BFN3F111jr4oaefKKjf/qv5DnirE5NsG+hl9dJbgAXzUMH+b9v5N69icg==",
+            "shasum": "f774783b21d662e117bc9778a3795479df3ab336",
+            "tarball": "https://registry.npmjs.org/@allmaps/render/-/render-1.0.0-alpha.2.tgz",
+            "fileCount": 4,
+            "unpackedSize": 5947,
+            "signatures": [
+              {
+                "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+                "sig": "MEUCIQC3xbPhl+LBjTevzlDmpjKoc4IdKy+Ltfiw67WAB3FIVgIgdoxinBUq9yG81eIEDqzvftFQlhr12tkPWaOzRVOkLoQ="
+              }
+            ]
+          },
+          "engines": {
+            "node": "^14.13.1 || >=16.0.0"
+          }
+        },
+        "1.0.0-alpha.3": {
+          "name": "@allmaps/render",
+          "version": "1.0.0-alpha.3",
+          "dependencies": {
+            "@allmaps/transform": "^1.0.0-alpha.6",
+            "@allmaps/iiif-parser": "^1.0.0-alpha.15",
+            "d3-array": "^3.0.4",
+            "potpack": "^1.0.1"
+          },
+          "devDependencies": {
+            "chai": "^4.3.4",
+            "eslint": "7",
+            "mocha": "^8.3.2"
+          },
+          "dist": {
+            "integrity": "sha512-LWIvwgqBmu9mp4wKVMFFoB/1oMgZOfJJT2ySJiXNtMCZYxaePHKIy46IHab4EiFBHU3FcFGhJs9fkNv9J1FzRg==",
+            "shasum": "5ee78d148087cc587f32438269235d0c158f689f",
+            "tarball": "https://registry.npmjs.org/@allmaps/render/-/render-1.0.0-alpha.3.tgz",
+            "fileCount": 4,
+            "unpackedSize": 6025,
+            "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.13\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJh11bTCRA9TVsSAnZWagAAFv8P/1ol30HSBG5r8TzpVKpb\nAt7J0JggfQYw3uF4Fdt+HTE1WGSyQy4yp3CwxrSKRkoAyyedFBpjPq8uI21S\n66kNCz3T4UFS4apS71yPkELiV14hL8JTGxXgqB0buXNNBGufScIiIoH6U3Nn\nIstJcB59YYp4ulPl9Li4aNuMpiYBAm8XSEh8b+nxqUGIG9eAPSxW3+K1Wc5D\nNPjd5urtdEZ6eTDZ2uDNd2gEQI/xrwVgK/kkFmw8n5lfQOgYv+ZGXZjAUEiA\nFDvZZYlxtttaGK+GIrQIDb4xwoYf/c8aHvtY4RNVeamnS1MFqN9HppCdxM0E\nbYXOVssF+p+jJCz+Z+JXZFY62+lkbkp62fmWvYAMmNIVrXJXQFREFSZ72ohx\n1jLwpEVVPLf2Fl03He0lr684oIEygruwtWINjeKziUXOdcnbaANswuEGrF4R\nw8EFDlbN/Gle1sRkfJgybCsUUWRWM2VfFpkmygzR6fGRjx1bFBQ9jn8kBoO6\nQru3ONFC5ixH1oAZA/0BcmxuodU9pAi94LPZFdkWY3LCHJ3qfAQ0Lf1kqsF3\nRksck/jE0psSqONld+mCR6QQ3ekhoAKoGWcCcJBZbH/ZLbfDYm1uQtDXNidC\nTocQG3/M2xXF9KIOA1NbwEqiLJX/naGAY1GjXW+XDl4bAz4mqQ1IrzSSWACf\nWa47\r\n=hAZ6\r\n-----END PGP SIGNATURE-----\r\n",
+            "signatures": [
+              {
+                "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+                "sig": "MEUCIQCOPPScRQ20QqyxDT8r/h5Vt0LytnGvsmJb/isASTg5qQIgfF/EyUj8rhkPqHiCTZaU/NXkzTCealMtjatmG71HGwk="
+              }
+            ]
+          },
+          "engines": {
+            "node": "^14.13.1 || >=16.0.0"
+          }
+        }
+      },
+      "modified": "2022-04-04T13:33:24.392Z",
+      "cachedAt": 1650653947279
+    },
+    "pkgsStack": [],
+    "err": {
+      "name": "pnpm",
+      "message": "No matching version found for @allmaps/render@1.0.0-beta.0",
+      "code": "ERR_PNPM_NO_MATCHING_VERSION",
+      "stack": "pnpm: No matching version found for @allmaps/render@1.0.0-beta.0\n    at resolveNpm (/opt/homebrew/Cellar/pnpm/6.32.3/libexec/lib/node_modules/pnpm/dist/pnpm.cjs:85933:15)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async Object.resolve (/opt/homebrew/Cellar/pnpm/6.32.3/libexec/lib/node_modules/pnpm/dist/pnpm.cjs:86117:34)\n    at async run (/opt/homebrew/Cellar/pnpm/6.32.3/libexec/lib/node_modules/pnpm/dist/pnpm.cjs:74193:23)"
+    }
+  }
+}
