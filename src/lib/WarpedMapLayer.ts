@@ -81,52 +81,24 @@ export class WarpedMapLayer extends Layer {
 
     this.program = this.createProgram(gl, vertexShader, fragmentShader)
 
-
     this.createSettingsUniformBufferObject()
-    // this.createTransformerUniformBufferObject()
+    this.createTransformerUniformBufferObject()
 
     gl.disable(gl.DEPTH_TEST)
   }
 
-
-
   createSettingsUniformBufferObject() {
     this.createUniformBufferObject('Settings', ['u_opacity'])
-    // this.createUniformBufferObject('Settings', ['u_opacity'])
   }
 
   createTransformerUniformBufferObject() {
-    this.createUniformBufferObject('Transformer', [
-      'u_imageSize',
-      'u_x2Mean',
-      'u_y2Mean',
-      'u_adfFromGeoX',
-      'u_adfFromGeoY',
-      'u_nOrder'
-    ])
-
-    // TODO stop er ook de data in!
-    // 'u_adfFromGeoX[0]': hTransformArg.adfFromGeoX[0],
-    // 'u_adfFromGeoX[1]': hTransformArg.adfFromGeoX[1],
-    // 'u_adfFromGeoX[2]': hTransformArg.adfFromGeoX[2],
-    // 'u_adfFromGeoX[3]': 0.0,
-    // 'u_adfFromGeoX[4]': 0.0,
-    // 'u_adfFromGeoX[5]': 0.0,
-    // 'u_adfFromGeoX[6]': 0.0,
-    // 'u_adfFromGeoX[7]': 0.0,
-    // 'u_adfFromGeoX[8]': 0.0,
-    // 'u_adfFromGeoX[9]': 0.0,
-
-    // 'u_adfFromGeoY[0]': hTransformArg.adfFromGeoY[0],
-    // 'u_adfFromGeoY[1]': hTransformArg.adfFromGeoY[1],
-    // 'u_adfFromGeoY[2]': hTransformArg.adfFromGeoY[2],
-    // 'u_adfFromGeoY[3]': 0.0,
-    // 'u_adfFromGeoY[4]': 0.0,
-    // 'u_adfFromGeoY[5]': 0.0,
-    // 'u_adfFromGeoY[6]': 0.0,
-    // 'u_adfFromGeoY[7]': 0.0,
-    // 'u_adfFromGeoY[8]': 0.0,
-    // 'u_adfFromGeoY[9]': 0.0,
+    // this.createUniformBufferObject('Transformer', [
+    //   'u_x2Mean',
+    //   'u_y2Mean',
+    //   'u_adfFromGeoX',
+    //   'u_adfFromGeoY'
+    // ])
+    // TODO: add data to buffer directly?
   }
 
   createUniformBufferObject(uniformBlockName: string, uboVariableNames: string[]) {
@@ -214,7 +186,7 @@ export class WarpedMapLayer extends Layer {
       warpedMapWebGLRenderer.on(WarpedMapEventType.TILELOADED, this.tileLoaded.bind(this))
     }
 
-    // this.changed()
+    this.changed()
   }
 
   warpedMapEnterExtent(event) {
@@ -378,8 +350,6 @@ export class WarpedMapLayer extends Layer {
 
       gl.useProgram(this.program)
 
-      // Settings UBO // // // // // // // // // // // // // // // //
-
       const settingsUboBuffer = this.uboBuffers.get('Settings')
       const settingsUboVariableInfo = this.uboVariableInfo.get('Settings')
 
@@ -392,50 +362,56 @@ export class WarpedMapLayer extends Layer {
         0
       )
 
-      // gl.bufferSubData(
-      //   gl.UNIFORM_BUFFER,
-      //   settingsUboVariableInfo.get('u_southWest').offset,
-      //   new Float32Array(southWest),
-      //   0
-      // )
-
-      // gl.bufferSubData(
-      //   gl.UNIFORM_BUFFER,
-      //   settingsUboVariableInfo.get('u_northEast').offset,
-      //   new Float32Array(northEast),
-      //   0
-      // )
-
       gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, settingsUboBuffer)
       gl.bindBuffer(gl.UNIFORM_BUFFER, null)
 
-      // // // // // // // // // // // // // // // // // // // // // //
+      const viewportSizeLocation = gl.getUniformLocation(this.program, 'u_viewportSize')
+      // TODO: pixelRatio!
+      gl.uniform2f(
+        viewportSizeLocation,
+        Math.round(gl.canvas.width / 2),
+        Math.round(gl.canvas.height / 2)
+      )
+
+      const coordinateToPixelTransformLocation = gl.getUniformLocation(
+        this.program,
+        'u_coordinateToPixelTransform'
+      )
+
+      gl.uniform1fv(coordinateToPixelTransformLocation, frameState.coordinateToPixelTransform)
+
+      const pixelToCoordinateTransformLocation = gl.getUniformLocation(
+        this.program,
+        'u_pixelToCoordinateTransform'
+      )
+
+      gl.uniform1fv(pixelToCoordinateTransformLocation, frameState.pixelToCoordinateTransform)
 
       for (let mapId of this.mapIdsInExtent) {
-        const viewportSizeLocation = gl.getUniformLocation(this.program, 'u_viewport_size')
-        // TODO: pixelRatio!
-        gl.uniform1fv(viewportSizeLocation, [gl.canvas.width / 2, gl.canvas.height / 2])
+        const warpedMapWebGLRenderer = this.warpedMapWebGLRenderers.get(mapId)
+        const transformer = warpedMapWebGLRenderer.transformer
 
-        const coordinateToPixelLocation = gl.getUniformLocation(
-          this.program,
-          'u_coordinate_to_pixel'
+        const x2MeanLocation = gl.getUniformLocation(this.program, 'u_x2Mean')
+        gl.uniform1f(x2MeanLocation, transformer.x2Mean)
+
+        const y2MeanLocation = gl.getUniformLocation(this.program, 'u_y2Mean')
+        gl.uniform1f(y2MeanLocation, transformer.y2Mean)
+
+        const adfFromGeoXLocation = gl.getUniformLocation(this.program, 'u_adfFromGeoX')
+        gl.uniform3f(
+          adfFromGeoXLocation,
+          transformer.adfFromGeoX[0],
+          transformer.adfFromGeoX[1],
+          transformer.adfFromGeoX[2]
         )
 
-        gl.uniform1fv(coordinateToPixelLocation, frameState.coordinateToPixelTransform)
-
-        const warpedMapWebGLRenderer = this.warpedMapWebGLRenderers.get(mapId)
-
-        // Transformer UBO // // // // // // // // // // // // // // //
-
-        const transformerUboBuffer = this.uboBuffers.get('Transformer')
-        const transformerUboVariableInfo = this.uboVariableInfo.get('Transformer')
-
-        // gl.bindBuffer(gl.UNIFORM_BUFFER, transformerUboBuffer)
-
-        // gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, transformerUboBuffer)
-        // gl.bindBuffer(gl.UNIFORM_BUFFER, null)
-
-        // // // // // // // // // // // // // // // // // // // // // //
+        const adfFromGeoYLocation = gl.getUniformLocation(this.program, 'u_adfFromGeoY')
+        gl.uniform3f(
+          adfFromGeoYLocation,
+          transformer.adfFromGeoY[0],
+          transformer.adfFromGeoY[1],
+          transformer.adfFromGeoY[2]
+        )
 
         const u_tilesTextureLocation = gl.getUniformLocation(this.program, 'u_tilesTexture')
         gl.uniform1i(u_tilesTextureLocation, 0)

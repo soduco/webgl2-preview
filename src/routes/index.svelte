@@ -9,7 +9,6 @@
 
   import { WarpedMapLayer } from '../lib/WarpedMapLayer'
   import { WarpedMapSource } from '../lib/WarpedMapSource'
-  import WarpedMapEventType from '../lib/WarpedMapEventType'
 
   import { generateId } from '@allmaps/id/browser'
 
@@ -20,8 +19,8 @@
   let warpedMapSource: WarpedMapSource
 
   let imageUris = [
-    // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1022',
-    // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1649',
+    'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1022',
+    'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1649',
     // 'https://iiif.digitalcommonwealth.org/iiif/2/commonwealth:m900rh51m',
     // 'https://iiif.digitalcommonwealth.org/iiif/2/commonwealth:ms35v598x',
     // 'https://iiif.digitalcommonwealth.org/iiif/2/commonwealth:m900rd464',
@@ -609,7 +608,244 @@
 
   // imageUris = ['https://iiif.digitalcommonwealth.org/iiif/2/commonwealth:9s161f22q']
 
-  let tileUrls: string[] = []
+  // imageUris = [
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6014',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6015',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6018',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6022',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6026',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6030',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6036',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6039',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/604',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6043',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6046',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6051',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6054',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6067',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6071',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6075',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6079',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6083',
+  //   'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6084',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6085',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6086',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6087',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6088',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6090',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6091',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6092',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6093',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6094',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6100',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6103',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6108',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6111',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6114',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6118',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6121',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6124',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6128',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6132',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6135',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/614',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6155',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6159',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6169',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/617',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6177',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/618',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/618',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/618',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/618',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/618',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/618',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6183',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6188',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6195',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/620',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6206',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6226',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6247',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6248',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6248',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6249',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6250',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6250',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6251',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6253',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6254',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6255',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/626',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/627',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6270',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6287',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/629',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6290',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6299',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/63',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/630',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6303',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6306',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6309',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/631',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6310',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6312',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6315',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6318',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6338',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/634',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6340',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6342',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6349',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/635',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6355',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6358',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/636',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6361',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6364',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6367',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/637',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6379',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6383',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6387',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/639',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6390',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6393',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6396',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6399',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/64',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/640',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/641',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6411',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6414',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6417',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6420',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/643',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/644',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6442',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6445',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6449',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/645',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6454',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/646',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6467',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/647',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6470',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/648',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6485',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6486',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6487',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6488',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6489',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/649',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6490',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6491',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6492',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6494',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6495',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6496',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6497',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6498',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/65',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/650',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6500',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6502',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6503',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6504',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6505',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6508',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6509',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/651',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6510',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6511',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6512',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6513',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6514',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6515',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6516',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/652',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/653',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/654',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/656',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/657',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/658',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/66',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/663',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/664',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/665',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/667',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/668',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/669',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/67',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/672',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6745',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6746',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/6754',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/676',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/680',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/683',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/686',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/689',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/69',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/692',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/695',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/70',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7096',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7097',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7098',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7099',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/71',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7100',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7101',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7102',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7103',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7104',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7105',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7106',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7107',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7108',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7109',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7110',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7111',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7112',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7113',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7114',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7115',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7116',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7117',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7118',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7119',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7120',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7121',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7122',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7123',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7124',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7125',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7126',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7127',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7128',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7129',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7130',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7131',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7132',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7132',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7133',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7134',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7135',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7136',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7137',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7138',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7139',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7140',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7141',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7142',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7143',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7144',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7145',
+  //   // 'https://cdm21033.contentdm.oclc.org/digital/iiif/krt/7146'
+  // ]
+
 
   let opacity = 1
 
@@ -627,10 +863,6 @@
         warpedMapSource.addMap(map)
       })
     }
-  }
-
-  function tilesChanged(event: CustomEvent) {
-    tileUrls = event.data
   }
 
   onMount(async () => {
@@ -651,8 +883,6 @@
       source: warpedMapSource
     })
 
-    warpedMapSource.on(WarpedMapEventType.TILESCHANGED, tilesChanged)
-
     ol = new Map({
       layers: [baseLayer, warpedMapLayer],
       target: 'ol',
@@ -671,21 +901,14 @@
 
 <div class="container">
   <div id="ol" />
-  <!-- <div class="iiif-tiles">
-    <ol>
-      {#each tileUrls as tileUrl (tileUrl)}
-        <li><img alt="tile" src={tileUrl} /></li>
-      {/each}
-    </ol>
-  </div> -->
   <div class="controls">
-    <input type=range bind:value={opacity} min=0 max=1 step=0.01>
+    <input type="range" bind:value={opacity} min="0" max="1" step="0.01" />
   </div>
 </div>
 
 <style>
   :global(body),
-  :global(.svelte) {
+  :global(#svelte) {
     margin: 0;
     position: absolute;
     width: 100%;
@@ -717,25 +940,5 @@
   #ol {
     width: 100%;
     height: 100%;
-  }
-
-  .iiif-tiles {
-    width: 300px;
-  }
-
-  .iiif-tiles ol {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow-y: auto;
-    height: 100%;
-  }
-
-  .iiif-tiles ol li {
-    padding: 10px;
-  }
-
-  .iiif-tiles ol img {
-    width: 100%;
   }
 </style>

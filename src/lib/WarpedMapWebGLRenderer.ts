@@ -62,9 +62,6 @@ export class WarpedMapWebGLRenderer extends BaseObject {
 
     if (this.vao) {
       this.createBuffer(gl, program, triangles, 2, 'a_position')
-
-      const colors = Array.from({ length: (triangles.length / 2) * 3 }, () => Math.random())
-      this.createBuffer(gl, program, colors, 3, 'a_color')
     }
   }
 
@@ -81,7 +78,6 @@ export class WarpedMapWebGLRenderer extends BaseObject {
         tile,
         imageRequest,
         loading: true,
-        image: undefined,
         imageData: undefined
       })
 
@@ -130,18 +126,10 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     const tile = this.currentScaleFactorTiles.get(url)
     if (tile) {
       tile.loading = false
-      tile.image = image
 
       tile.imageBitmap = await createImageBitmap(image)
 
       this.dispatchEvent(new WarpedMapRendererEvent(WarpedMapEventType.TILELOADED, url))
-      // const canvas = document.createElement('canvas')
-      // const context = canvas.getContext('2d')
-
-      // canvas.width = image.width
-      // canvas.height = image.height
-      // context.drawImage(image, 0, 0)
-      // tile.imageData = context.getImageData(0, 0, image.width, image.height)
     }
 
     this.updateTextures()
@@ -187,8 +175,8 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
 
     const packedTiles = tilesForTexture.map((tile, index) => ({
-      w: tile.image.width,
-      h: tile.image.height,
+      w: tile.imageBitmap.width,
+      h: tile.imageBitmap.height,
       index
     }))
 
@@ -201,7 +189,6 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     // }
 
     gl.bindTexture(gl.TEXTURE_2D, this.tilesTexture)
-    // gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA8, textureWidth, textureHeight)
 
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
@@ -219,8 +206,6 @@ export class WarpedMapWebGLRenderer extends BaseObject {
       gl.UNSIGNED_BYTE,
       null
     )
-
-    // console.log(textureWidth, textureHeight)
 
     packedTiles.forEach((packedTile, index) => {
       const tileImageBitmap = tilesForTexture[index].imageBitmap
@@ -244,7 +229,6 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     const tilePositions = packedTiles.map((packedTile) => [packedTile.x, packedTile.y])
 
     gl.bindTexture(gl.TEXTURE_2D, this.tilePositionsTexture)
-    // gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4 * 2)
     gl.texImage2D(
       gl.TEXTURE_2D,
       0,
@@ -273,11 +257,11 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     gl.texImage2D(
       gl.TEXTURE_2D,
       0,
-      gl.RGB32I,
+      gl.RGBA32I,
       1,
       tilesForTextureCount,
       0,
-      gl.RGB_INTEGER,
+      gl.RGBA_INTEGER,
       gl.INT,
       new Int32Array(imagePositions.flat())
     )

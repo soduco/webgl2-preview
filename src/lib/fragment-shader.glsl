@@ -7,37 +7,98 @@ uniform Settings {
   float u_opacity;
 };
 
+uniform float u_x2Mean;
+uniform float u_y2Mean;
+uniform vec3 u_adfFromGeoX;
+uniform vec3 u_adfFromGeoY;
+
+uniform float[6] u_pixelToCoordinateTransform;
+uniform vec2 u_viewportSize;
+
+vec2 CRS_georef(float e1, float n1, vec3 E, vec3 N) {
+  float e;
+  float n;
+
+  // if(order == 1) {
+  e = E[0] + E[1] * e1 + E[2] * n1;
+  n = N[0] + N[1] * e1 + N[2] * n1;
+
+  return vec2(e, n);
+}
+
+vec2 GDALGCPTransform(float x2_mean, float y2_mean, vec3 adfFromGeoX, vec3 adfFromGeoY, vec2 point) {
+  vec2 transformedPoint = CRS_georef(point.x - x2_mean, point.y - y2_mean, adfFromGeoX, adfFromGeoY);
+
+  return transformedPoint;
+}
+
 uniform sampler2D u_tilesTexture;
 uniform isampler2D u_tilePositionsTexture;
 uniform isampler2D u_imagePositionsTexture;
 uniform isampler2D u_scaleFactorsTexture;
 
-in vec4 v_vertex_color;
 out vec4 outColor;
 
+vec2 apply(float[6] transform, vec2 coordinate) {
+  float x = coordinate[0];
+  float y = coordinate[1];
+  return vec2(transform[0] * x + transform[2] * y + transform[4], transform[1] * x + transform[3] * y + transform[5]);
+}
+
 void main() {
-  vec4 color = texelFetch(u_tilesTexture, ivec2(50, 50), 0);
-  ivec2 tilesTextureSize = textureSize(u_tilesTexture, 0);
+  // gl_FragCoord contains canvas pixel values:
+  // lower-left origin: substract y component from viewport height and
+  // divide by 2 to get HTML coordinates used by OpenLayers
+  vec2 pixelCoords = vec2(gl_FragCoord.x / 2.0, u_viewportSize.y - gl_FragCoord.y / 2.0);
 
-  // textureSize = afmetingen van tileTexture!
-  // textureSize: regl.prop('textureSize'),
+  vec2 geoCoords = apply(u_pixelToCoordinateTransform, pixelCoords);
+  vec2 imageCoords = GDALGCPTransform(u_x2Mean, u_y2Mean, u_adfFromGeoX, u_adfFromGeoY, geoCoords.yx);
 
-  // tilesount = textureSize(u_image0, 0); hoogte van deze texture
-  // u_tileCount: regl.prop('tileCount'),
+  ivec2 tilePositionsTextureSize = textureSize(u_tilePositionsTexture, 0);
+  int tileCount = tilePositionsTextureSize.y;
 
-  // ivec4 intColor = texture(u_image0, vec2(0.0, 0.0));
-  // float value = float(intColor.r);
-  // ivec2 s = textureSize(u_image0, 0);
+  int imageX = int(round(imageCoords.x));
+  int imageY = int(round(imageCoords.y));
 
+  ivec2 tileTextureSize = textureSize(u_tilesTexture, 0);
 
-  ivec4 scaleFactorTexel = texelFetch(u_scaleFactorsTexture, ivec2(0, 0), 0);
-  int scaleFactor = scaleFactorTexel.r;
+  int texturePixelX = 0;
+  int texturePixelY = 0;
 
-  // float value = float(scaleFactor) / 64.0;
-  float value = float(tilesTextureSize.y) / 164.0;
-  // float value = color.r;
-  // float value = 0.5;
+  float diffX = 0.0;
+  float diffY = 0.0;
 
-  outColor = vec4(value, color.g, color.b, u_opacity);
-  // outColor = v_vertex_color;
+  int scaleFactor = 0;
+
+  bool found = false;
+
+  for(int tileIndex = 0; tileIndex < tileCount; tileIndex += 1) {
+    ivec4 imagePosition = texelFetch(u_imagePositionsTexture, ivec2(0, tileIndex), 0);
+
+    int tileRegionX = imagePosition.r;
+    int tileRegionY = imagePosition.g;
+    int tileRegionWidth = imagePosition.b;
+    int tileRegionHeight = imagePosition.a;
+
+    if(imageX >= tileRegionX && imageX < tileRegionX + tileRegionWidth && imageY >= tileRegionY && imageY < tileRegionY + tileRegionHeight) {
+      found = true;
+
+      scaleFactor = texelFetch(u_scaleFactorsTexture, ivec2(0, tileIndex), 0).r;
+
+      diffX = float(imageX - tileRegionX) / float(scaleFactor);
+      diffY = float(imageY - tileRegionY) / float(scaleFactor);
+
+      ivec2 tilePosition = texelFetch(u_tilePositionsTexture, ivec2(0, tileIndex), 0).rg;
+
+      texturePixelX = tilePosition.r + int(round(diffX));
+      texturePixelY = tilePosition.g + int(round(diffY));
+    }
+  }
+
+  outColor = vec4(0.0, 0.0, 0.0, 0.0);
+
+  if(found == true) {
+    vec4 color = texture(u_tilesTexture, vec2(float(texturePixelX) / float(tileTextureSize.x), float(texturePixelY) / float(tileTextureSize.y)));
+    outColor = vec4(color.rgb, u_opacity * color.a);
+  }
 }
