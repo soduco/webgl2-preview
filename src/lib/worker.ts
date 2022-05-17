@@ -10,8 +10,8 @@ import { computeIiifTilesForMapExtent } from '@allmaps/render'
 import { Image as IIIFImage } from '@allmaps/iiif-parser'
 import { createTransformer, polygonToWorld } from '@allmaps/transform'
 
-import WarpedMapEventType from './WarpedMapEventType.js'
-import { WarpedMap } from './WarpedMap.js'
+import WarpedMapEventType from './WarpedMapEventType.ts'
+import { WarpedMap } from './WarpedMap.ts'
 
 interface WarpedMapsRtreeItem {
   minX: number
