@@ -13,7 +13,10 @@ const config = {
       pages: 'build',
       assets: 'build',
       fallback: null,
-      precompress: false
+      precompress: false,
+      paths: {
+        base: '/webgl2-preview'
+      }
     }),
     prerender: {
       default: true
