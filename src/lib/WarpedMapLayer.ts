@@ -366,19 +366,24 @@ export class WarpedMapLayer extends Layer {
       gl.bindBuffer(gl.UNIFORM_BUFFER, null)
 
       const viewportSizeLocation = gl.getUniformLocation(this.program, 'u_viewportSize')
-      // TODO: pixelRatio!
+
       gl.uniform2f(
         viewportSizeLocation,
-        Math.round(gl.canvas.width / 2),
-        Math.round(gl.canvas.height / 2)
+        Math.round(gl.canvas.width / window.devicePixelRatio),
+        Math.round(gl.canvas.height / window.devicePixelRatio)
       )
 
       const coordinateToPixelTransformLocation = gl.getUniformLocation(
         this.program,
         'u_coordinateToPixelTransform'
       )
-
       gl.uniform1fv(coordinateToPixelTransformLocation, frameState.coordinateToPixelTransform)
+
+      const devicePixelRatioLocation = gl.getUniformLocation(
+        this.program,
+        'u_devicePixelRatio'
+      )
+      gl.uniform1f(devicePixelRatioLocation, window.devicePixelRatio)
 
       const pixelToCoordinateTransformLocation = gl.getUniformLocation(
         this.program,

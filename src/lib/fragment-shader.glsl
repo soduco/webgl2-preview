@@ -14,6 +14,7 @@ uniform vec3 u_adfFromGeoY;
 
 uniform float[6] u_pixelToCoordinateTransform;
 uniform vec2 u_viewportSize;
+uniform float u_devicePixelRatio;
 
 vec2 CRS_georef(float e1, float n1, vec3 E, vec3 N) {
   float e;
@@ -48,8 +49,8 @@ vec2 apply(float[6] transform, vec2 coordinate) {
 void main() {
   // gl_FragCoord contains canvas pixel values:
   // lower-left origin: substract y component from viewport height and
-  // divide by 2 to get HTML coordinates used by OpenLayers
-  vec2 pixelCoords = vec2(gl_FragCoord.x / 2.0, u_viewportSize.y - gl_FragCoord.y / 2.0);
+  // divide by u_devicePixelRatio to get HTML coordinates used by OpenLayers
+  vec2 pixelCoords = vec2(gl_FragCoord.x / u_devicePixelRatio, u_viewportSize.y - gl_FragCoord.y / u_devicePixelRatio);
 
   vec2 geoCoords = apply(u_pixelToCoordinateTransform, pixelCoords);
   vec2 imageCoords = GDALGCPTransform(u_x2Mean, u_y2Mean, u_adfFromGeoX, u_adfFromGeoY, geoCoords.yx);
