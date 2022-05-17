@@ -100,6 +100,6 @@ void main() {
 
   if(found == true) {
     vec4 color = texture(u_tilesTexture, vec2(float(texturePixelX) / float(tileTextureSize.x), float(texturePixelY) / float(tileTextureSize.y)));
-    outColor = vec4(color.rgb, u_opacity * color.a);
+    outColor = vec4(color.rgb * u_opacity, color.a * u_opacity);
   }
 }

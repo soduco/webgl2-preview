@@ -195,8 +195,8 @@ onmessage = async (event: MessageEvent) => {
         const pixelTopLeft = applyTransform(coordinateToPixelTransform, topLeft)
         const pixelBottomRight = applyTransform(coordinateToPixelTransform, bottomRight)
 
-        const pixelWidth = pixelBottomRight[0] - pixelTopLeft[0]
-        const pixelHeight = pixelTopLeft[1] - pixelBottomRight[1]
+        const pixelWidth = Math.abs(pixelBottomRight[0] - pixelTopLeft[0])
+        const pixelHeight = Math.abs(pixelTopLeft[1] - pixelBottomRight[1])
 
         // Only draw maps that are larger than 1 pixel in height or width
         // TODO: use constant instead of 1
