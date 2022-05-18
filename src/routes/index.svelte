@@ -15,16 +15,21 @@
 
   let ol
   let xyz
-  let baseLayer
+  let baseLayer: TileLayer<XYZ>
   let warpedMapLayer: WarpedMapLayer
   let warpedMapSource: WarpedMapSource
 
   let opacity = 1
+  let baseLayerOpacity = 1
   let backgroundColorThreshold = 0
   let backgroundColor = '#f2e7e0'
 
   $: {
     warpedMapLayer?.setOpacity(opacity)
+  }
+
+  $: {
+    baseLayer?.setOpacity(baseLayerOpacity)
   }
 
   $: {
@@ -63,7 +68,6 @@
 
     ol = new Map({
       layers: [baseLayer, warpedMapLayer],
-      // layers: [warpedMapLayer],
       target: 'ol',
       view: new View({
         center: fromLonLat([-71.13, 42.2895]),
@@ -106,16 +110,22 @@
 <footer>
   <div class="controls">
     <div>
-      <label
-        >Opacity:
+      <label>
+        Opacity:
         <input type="range" bind:value={opacity} min="0" max="1" step="0.01" />
       </label>
     </div>
     <div>
-      <label
-        >Remove background color:
+      <label>
+        Remove background color:
         <input type="color" bind:value={backgroundColor} />
         <input type="range" bind:value={backgroundColorThreshold} min="0" max="1" step="0.01" />
+      </label>
+    </div>
+    <div>
+      <label>
+        Base layer opacity:
+        <input type="range" bind:value={baseLayerOpacity} min="0" max="1" step="0.01" />
       </label>
     </div>
   </div>
@@ -162,6 +172,17 @@
     max-width: 100%;
     background: white;
     border-radius: 5px;
+  }
+
+  .controls > div {
+    width: 100%;
+
+  }
+
+  .controls label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   #ol {
