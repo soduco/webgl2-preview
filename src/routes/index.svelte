@@ -660,7 +660,7 @@
       })
     })
 
-    const annotationsResponse = await fetch('../annotations.json')
+    const annotationsResponse = await fetch('annotations.json')
     const annotations = await annotationsResponse.json()
     const maps = parseAnnotation(annotations)
 
