@@ -153,7 +153,17 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     //   throw new Error('too many tiles')
     // }
 
-    const scaleFactors = tilesForTexture.map((tile) => tile.tile.zoomLevel.scaleFactor)
+    const packedTiles = tilesForTexture.map((tile, index) => ({
+      w: tile.imageBitmap.width,
+      h: tile.imageBitmap.height,
+      index
+    }))
+
+    // Potpack modifies the tiles array and overwrites the x, y row/column
+    // values with the texture position in pixel values
+    const { w: textureWidth, h: textureHeight } = potpack(packedTiles)
+
+    const scaleFactors = packedTiles.map(({ index }) => tilesForTexture[index].tile.zoomLevel.scaleFactor)
 
     gl.bindTexture(gl.TEXTURE_2D, this.scaleFactorsTexture)
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4)
@@ -173,16 +183,6 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-
-    const packedTiles = tilesForTexture.map((tile, index) => ({
-      w: tile.imageBitmap.width,
-      h: tile.imageBitmap.height,
-      index
-    }))
-
-    // Potpack modifies the tiles array and overwrites the x, y row/column
-    // values with the texture position in pixel values
-    const { w: textureWidth, h: textureHeight } = potpack(packedTiles)
 
     // if (Math.max(textureWidth, textureHeight) > MAX_TEXTURE_SIZE) {
     //   throw new Error('tile texture too large')
@@ -207,7 +207,8 @@ export class WarpedMapWebGLRenderer extends BaseObject {
       null
     )
 
-    packedTiles.forEach((packedTile, index) => {
+    packedTiles.forEach((packedTile) => {
+      const index = packedTile.index
       const tileImageBitmap = tilesForTexture[index].imageBitmap
 
       const textureX = packedTile.x
@@ -246,12 +247,16 @@ export class WarpedMapWebGLRenderer extends BaseObject {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
 
-    const imagePositions = tilesForTexture.map((tile) => [
-      tile.imageRequest.region.x,
-      tile.imageRequest.region.y,
-      tile.imageRequest.region.width,
-      tile.imageRequest.region.height
-    ])
+    const imagePositions = packedTiles.map(({ index }) => {
+      const tile = tilesForTexture[index]
+
+      return [
+        tile.imageRequest.region.x,
+        tile.imageRequest.region.y,
+        tile.imageRequest.region.width,
+        tile.imageRequest.region.height
+      ]
+    })
 
     gl.bindTexture(gl.TEXTURE_2D, this.imagePositionsTexture)
     gl.texImage2D(
