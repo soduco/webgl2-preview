@@ -325,9 +325,14 @@ export class WarpedMapLayer extends Layer {
       this.resizeCanvas(this.canvas, this.canvasSize)
     }
 
+    const viewportSize = [
+      frameState.size[0] * window.devicePixelRatio,
+      frameState.size[1] * window.devicePixelRatio
+    ]
+
     if (this.throttledUpdateNeededTiles) {
       this.throttledUpdateNeededTiles(
-        frameState.size,
+        viewportSize,
         frameState.extent,
         frameState.coordinateToPixelTransform
       )
