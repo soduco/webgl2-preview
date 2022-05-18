@@ -128,6 +128,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
+    font-family: monospace;
   }
 
   * {
@@ -156,6 +157,7 @@
   }
 
   .controls {
+    padding: 5px;
     width: 400px;
     max-width: 100%;
     background: white;
