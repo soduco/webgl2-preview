@@ -143,6 +143,15 @@ onmessage = async (event: MessageEvent) => {
       0
     )
 
+    // TODO:to make sure only tiles for visible parts of the map are requested
+    // (and not for parts hidden behind maps on top of it)
+    // use https://github.com/mfogel/polygon-clipping to subtract geoMasks of
+    // maps that have been added before.
+    // Map A (topmost): show completely
+    // Map B: B - A
+    // Map C: C - B - A
+    // Map D: D - C - B - A
+
     const flattened = earcut.flatten(geoMask.coordinates)
     const vertexIndices = earcut(flattened.vertices, flattened.holes, flattened.dimensions)
     const triangles = vertexIndices
@@ -198,9 +207,9 @@ onmessage = async (event: MessageEvent) => {
         const pixelWidth = Math.abs(pixelBottomRight[0] - pixelTopLeft[0])
         const pixelHeight = Math.abs(pixelTopLeft[1] - pixelBottomRight[1])
 
-        // Only draw maps that are larger than 1 pixel in height or width
+        // Only draw maps that are larger than 1 pixel in combined width and height
         // TODO: use constant instead of 1
-        if (pixelWidth < 1 || pixelHeight < 1) {
+        if (pixelWidth + pixelHeight < 1) {
           continue
         }
 
