@@ -3,9 +3,13 @@
 precision highp float;
 precision highp isampler2D;
 
-uniform Settings {
-  float u_opacity;
-};
+// uniform Settings {
+//   float u_opacity;
+// };
+
+uniform float u_opacity;
+uniform vec3 u_backgroundColor;
+uniform float u_backgroundColorThreshold;
 
 uniform float u_x2Mean;
 uniform float u_y2Mean;
@@ -101,5 +105,10 @@ void main() {
   if(found == true) {
     vec4 color = texture(u_tilesTexture, vec2(float(texturePixelX) / float(tileTextureSize.x), float(texturePixelY) / float(tileTextureSize.y)));
     outColor = vec4(color.rgb * u_opacity, color.a * u_opacity);
+
+    vec3 backgroundDiff = color.rgb - u_backgroundColor.rgb;
+      if (length(backgroundDiff) < u_backgroundColorThreshold) {
+      outColor = vec4(0.0, 0.0, 0.0, 0.0);
+    }
   }
 }

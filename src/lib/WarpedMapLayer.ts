@@ -19,6 +19,9 @@ export class WarpedMapLayer extends Layer {
   gl: WebGL2RenderingContext | null = null
   program: WebGLProgram | null = null
 
+  backgroundColor = [0, 0, 0]
+  backgroundColorThreshold = 0
+
   uboBuffers: Map<string, WebGLBuffer> = new Map()
   uboVariableInfo: Map<string, Map<string, { index: number; offset: number }>> = new Map()
 
@@ -81,8 +84,8 @@ export class WarpedMapLayer extends Layer {
 
     this.program = this.createProgram(gl, vertexShader, fragmentShader)
 
-    this.createSettingsUniformBufferObject()
-    this.createTransformerUniformBufferObject()
+    // this.createSettingsUniformBufferObject()
+    // this.createTransformerUniformBufferObject()
 
     gl.disable(gl.DEPTH_TEST)
   }
@@ -316,6 +319,24 @@ export class WarpedMapLayer extends Layer {
     return needResize
   }
 
+  hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+    return result
+      ? [
+          parseInt(result[1], 16) / 256,
+          parseInt(result[2], 16) / 256,
+          parseInt(result[3], 16) / 256
+        ]
+      : null
+  }
+
+  hideBackgroundColor(backgroundColor?: string, backgroundColorThreshold?: number) {
+    this.backgroundColor = this.hexToRgb(backgroundColor)
+    this.backgroundColorThreshold = backgroundColorThreshold
+
+    this.changed()
+  }
+
   destroy() {
     // Remove WebGL context, all textures etc.
   }
@@ -341,10 +362,6 @@ export class WarpedMapLayer extends Layer {
     if (this.gl && this.program) {
       const gl = this.gl
 
-      const extent = frameState.extent
-      const southWest = [extent[0], extent[1]]
-      const northEast = [extent[2], extent[3]]
-
       gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
       gl.enable(gl.BLEND)
@@ -355,23 +372,31 @@ export class WarpedMapLayer extends Layer {
 
       gl.useProgram(this.program)
 
-      const settingsUboBuffer = this.uboBuffers.get('Settings')
-      const settingsUboVariableInfo = this.uboVariableInfo.get('Settings')
+      const opacityLocation = gl.getUniformLocation(this.program, 'u_opacity')
+      gl.uniform1f(opacityLocation, this.getOpacity())
 
-      gl.bindBuffer(gl.UNIFORM_BUFFER, settingsUboBuffer)
+      const backgroundColorLocation = gl.getUniformLocation(this.program, 'u_backgroundColor')
+      gl.uniform3fv(backgroundColorLocation, this.backgroundColor)
 
-      gl.bufferSubData(
-        gl.UNIFORM_BUFFER,
-        settingsUboVariableInfo.get('u_opacity').offset,
-        new Float32Array([this.getOpacity()]),
-        0
-      )
+      const backgroundColorThresholdLocation = gl.getUniformLocation(this.program, 'u_backgroundColorThreshold')
+      gl.uniform1f(backgroundColorThresholdLocation, this.backgroundColorThreshold)
 
-      gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, settingsUboBuffer)
-      gl.bindBuffer(gl.UNIFORM_BUFFER, null)
+      // const settingsUboBuffer = this.uboBuffers.get('Settings')
+      // const settingsUboVariableInfo = this.uboVariableInfo.get('Settings')
+
+      // gl.bindBuffer(gl.UNIFORM_BUFFER, settingsUboBuffer)
+
+      // gl.bufferSubData(
+      //   gl.UNIFORM_BUFFER,
+      //   settingsUboVariableInfo.get('u_opacity').offset,
+      //   new Float32Array([this.getOpacity()]),
+      //   0
+      // )
+
+      // gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, settingsUboBuffer)
+      // gl.bindBuffer(gl.UNIFORM_BUFFER, null)
 
       const viewportSizeLocation = gl.getUniformLocation(this.program, 'u_viewportSize')
-
       gl.uniform2f(
         viewportSizeLocation,
         Math.round(gl.canvas.width / window.devicePixelRatio),
@@ -384,10 +409,7 @@ export class WarpedMapLayer extends Layer {
       )
       gl.uniform1fv(coordinateToPixelTransformLocation, frameState.coordinateToPixelTransform)
 
-      const devicePixelRatioLocation = gl.getUniformLocation(
-        this.program,
-        'u_devicePixelRatio'
-      )
+      const devicePixelRatioLocation = gl.getUniformLocation(this.program, 'u_devicePixelRatio')
       gl.uniform1f(devicePixelRatioLocation, window.devicePixelRatio)
 
       const pixelToCoordinateTransformLocation = gl.getUniformLocation(
