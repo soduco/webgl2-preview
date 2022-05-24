@@ -21,6 +21,7 @@ vec2 apply(float[6] transform, vec4 coordinate) {
 
 void main() {
   vec2 pixel = apply(u_coordinateToPixelTransform, a_position);
+  // vec2 position = pixel / u_viewportSize * vec2(1, -1) * 2.0 - 1.0;
 
   float x = pixel[0] / u_viewportSize.x * 2.0 - 1.0;
   float y = -(pixel[1] / u_viewportSize.y * 2.0 - 1.0);
