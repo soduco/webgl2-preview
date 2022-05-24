@@ -403,6 +403,11 @@ export class WarpedMapLayer extends Layer {
         Math.round(gl.canvas.height / window.devicePixelRatio)
       )
 
+      // Warped maps jiggle when zoomed in. This is probably caused by converting
+      // 64 bit numbers in frameState.coordinateToPixelTransform to 32 bit floats in the vertex shader.
+      // See:
+      // https://segmentfault.com/a/1190000040332266/en
+      // https://blog.mapbox.com/rendering-big-geodata-on-the-fly-with-geojson-vt-4e4d2a5dd1f2
       const coordinateToPixelTransformLocation = gl.getUniformLocation(
         this.program,
         'u_coordinateToPixelTransform'
