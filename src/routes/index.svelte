@@ -9,7 +9,7 @@
   import View from 'ol/View.js'
   import { fromLonLat } from 'ol/proj.js'
   import GeoJSON from 'ol/format/GeoJSON.js'
-  import Select from 'ol/interaction/Select'
+  import Select from 'ol/interaction/Select.js'
 
   import { WarpedMapLayer } from '../lib/WarpedMapLayer'
   import { WarpedMapSource } from '../lib/WarpedMapSource'
