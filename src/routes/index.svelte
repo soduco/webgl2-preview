@@ -193,12 +193,14 @@
     // ]
 
     // for (let annotationUrl of annotationUrls) {
-    //   addMapsByAnnotationUrl(annotationUrl)
+    //   await addMapsByAnnotationUrl(annotationUrl)
     // }
 
-    // // West-Roxbury:
+    // West-Roxbury:
+    await addMapsByAnnotationUrl('annotations.json')
 
-    addMapsByAnnotationUrl('annotations.json')
+    const extent = vectorLayer.getSource().getExtent()
+    ol.getView().fit(extent)
   })
 
   function handleKeydown(event) {
