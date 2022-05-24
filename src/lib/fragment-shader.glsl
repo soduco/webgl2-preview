@@ -107,7 +107,11 @@ void main() {
     outColor = vec4(color.rgb * u_opacity, color.a * u_opacity);
 
     vec3 backgroundDiff = color.rgb - u_backgroundColor.rgb;
-      if (length(backgroundDiff) < u_backgroundColorThreshold) {
+    if (length(backgroundDiff) < u_backgroundColorThreshold) {
+      // float s = 0.02;
+      // float a = mix(0.0, color.a * u_opacity, max(length(backgroundDiff), s));
+      // outColor = vec4(color.rgb * u_opacity, a);
+
       outColor = vec4(0.0, 0.0, 0.0, 0.0);
     }
   }
