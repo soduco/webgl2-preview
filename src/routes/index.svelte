@@ -4,25 +4,34 @@
   import Map from 'ol/Map.js'
   import TileLayer from 'ol/layer/Tile.js'
   import XYZ from 'ol/source/XYZ.js'
+  import VectorLayer from 'ol/layer/Vector.js'
+  import VectorSource from 'ol/source/Vector.js'
   import View from 'ol/View.js'
   import { fromLonLat } from 'ol/proj.js'
+  import GeoJSON from 'ol/format/GeoJSON.js'
+  import Select from 'ol/interaction/Select'
 
   import { WarpedMapLayer } from '../lib/WarpedMapLayer'
   import { WarpedMapSource } from '../lib/WarpedMapSource'
+  import { vectorStyle, selectedVectorStyle } from '../lib/vector-style'
 
   import { generateId } from '@allmaps/id/browser'
   import { parseAnnotation } from '@allmaps/annotation'
+  import { createTransformer, polygonToWorld } from '@allmaps/transform'
 
   let ol
-  let xyz
+  let xyzSource
   let baseLayer: TileLayer<XYZ>
   let warpedMapLayer: WarpedMapLayer
   let warpedMapSource: WarpedMapSource
+  let vectorLayer: VectorLayer<VectorSource>
+  let vectorSource: VectorSource
 
   let opacity = 1
   let baseLayerOpacity = 1
   let backgroundColorThreshold = 0
   let backgroundColor = '#f2e7e0'
+  let showVectorLayer = false
 
   $: {
     warpedMapLayer?.setOpacity(opacity)
@@ -36,29 +45,77 @@
     warpedMapLayer?.hideBackgroundColor(backgroundColor, backgroundColorThreshold)
   }
 
-  // async function addMapByImageUri(imageUri: string) {
-  //   const imageId = await generateId(imageUri)
-  //   const apiUrl = `https://dev.api.allmaps.org/images/${imageId}/maps`
-  //   const maps = await fetch(apiUrl).then((response) => response.json())
+  $: {
+    vectorLayer?.setVisible(showVectorLayer)
+  }
 
-  //   if (Array.isArray(maps)) {
-  //     maps.forEach((map) => {
-  //       warpedMapSource.addMap(map)
-  //     })
-  //   }
-  // }
+  async function addMapsByAnnotationUrl(annotationUrl: string) {
+    const annotationsResponse = await fetch(annotationUrl)
+
+    const annotations = await annotationsResponse.json()
+    const maps = parseAnnotation(annotations)
+
+    for (let map of maps) {
+      warpedMapSource.addMap(map)
+
+      const gcps = map.gcps
+      const transformer = createTransformer(gcps)
+
+      const geoMask = polygonToWorld(
+        transformer,
+        [...map.pixelMask, map.pixelMask[map.pixelMask.length - 1]],
+        0.01,
+        0
+      )
+
+      const feature = {
+        type: 'Feature',
+        properties: {
+          uri: map.image.uri
+        },
+        geometry: geoMask
+      }
+
+      vectorSource.addFeature(
+        new GeoJSON().readFeature(feature, { featureProjection: 'EPSG:3857' })
+      )
+    }
+  }
+
+  async function addMapsByImageUri(imageUri: string) {
+    const imageId = await generateId(imageUri)
+    const apiUrl = `https://dev.api.allmaps.org/images/${imageId}/maps`
+    const maps = await fetch(apiUrl).then((response) => response.json())
+
+    if (Array.isArray(maps)) {
+      maps.forEach((map) => {
+        warpedMapSource.addMap(map)
+      })
+    }
+  }
 
   onMount(async () => {
     const tileUrl =
       'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
 
-    xyz = new XYZ({
+    xyzSource = new XYZ({
       url: tileUrl,
       maxZoom: 19
     })
 
+    vectorSource = new VectorSource()
+    vectorLayer = new VectorLayer({
+      visible: false,
+      source: vectorSource,
+      style: vectorStyle
+    })
+
+    const select = new Select({
+      style: selectedVectorStyle
+    })
+
     baseLayer = new TileLayer({
-      source: xyz
+      source: xyzSource
     })
 
     warpedMapSource = new WarpedMapSource()
@@ -67,7 +124,7 @@
     })
 
     ol = new Map({
-      layers: [baseLayer, warpedMapLayer],
+      layers: [baseLayer, warpedMapLayer, vectorLayer],
       target: 'ol',
       view: new View({
         center: fromLonLat([-71.13, 42.2895]),
@@ -76,17 +133,72 @@
       })
     })
 
-    const annotationsResponse = await fetch('annotations.json')
-    const annotations = await annotationsResponse.json()
-    const maps = parseAnnotation(annotations)
+    ol.addInteraction(select)
 
-    for (let map of maps) {
-      warpedMapSource.addMap(map)
-    }
+    select.on('select', (event) => {
+      const feature = event.selected[0]
+      const uri = feature.get('uri')
+      const url = `https://observablehq.com/@bertspaan/iiif-openseadragon?url=${uri}/info.json`
+      window.open(url, '_blank').focus()
+    })
+
+
+    // const imageUris = [
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2164',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2165',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2166',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2167',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2168',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2169',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2170',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2171',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2172',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2173',
+    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2174'
+    // ]
 
     // for (let imageUri of imageUris) {
-    //   addMapByImageUri(imageUri)
+    //   addMapsByImageUri(imageUri)
     // }
+
+    // Harold Fisk:
+
+    // const annotationUrls = [
+    //   'https://annotations.allmaps.org/images/ymS9BiCKaJcYBkHr',
+    //   'https://annotations.allmaps.org/images/TPpZfJeyYWphxewF',
+    //   'https://annotations.allmaps.org/images/V6rhqS3TzDyNc1Zt',
+    //   'https://annotations.allmaps.org/images/hn4sjDuY4c4uUyhn',
+    //   'https://annotations.allmaps.org/images/sLCbCnR1pvnT87gR',
+    //   'https://annotations.allmaps.org/images/dJt74pgVLfbVzGDU',
+    //   'https://annotations.allmaps.org/images/WrN23VDCjess1X13',
+    //   'https://annotations.allmaps.org/images/Hn9dszWSFuXuVbQE',
+    //   'https://annotations.allmaps.org/images/gv8pUvfRp7NWMEmU',
+    //   'https://annotations.allmaps.org/images/qB97cH8HSrhUHPPv',
+    //   'https://annotations.allmaps.org/images/Q2HffUx58TzieLDD',
+    //   'https://annotations.allmaps.org/images/EKzCKy1N6E8XVmqM',
+    //   'https://annotations.allmaps.org/images/NPC7MP8hKqwAyYUN',
+    //   'https://annotations.allmaps.org/images/DEGQ2MKKqVdxUkRb',
+    //   'https://annotations.allmaps.org/images/Ed7iQah4jzsdMj6W'
+    // ]
+
+    // Gebouwplattegronden Delft:
+
+    // const annotationUrls = [
+    //   'https://annotations.allmaps.org/images/AeaB5eDWFmFkJDRQ',
+    //   'https://annotations.allmaps.org/images/iH2T1TaK9jtUqXYv',
+    //   'https://annotations.allmaps.org/images/G2YwKP4kWP8837ib',
+    //   'https://annotations.allmaps.org/images/bazNtb9czeRYHyQK',
+    //   'https://annotations.allmaps.org/images/6izdrygmbAHRFDEW',
+    //   'https://annotations.allmaps.org/images/djpt1ua2KvTJtPAz'
+    // ]
+
+    // for (let annotationUrl of annotationUrls) {
+    //   addMapsByAnnotationUrl(annotationUrl)
+    // }
+
+    // // West-Roxbury:
+
+    addMapsByAnnotationUrl('annotations.json')
   })
 
   function handleKeydown(event) {
@@ -94,6 +206,7 @@
       opacity = 0
     }
   }
+
   function handleKeyup(event) {
     if (event.code === 'Space') {
       opacity = 1
@@ -126,6 +239,12 @@
       <label>
         Base layer opacity:
         <input type="range" bind:value={baseLayerOpacity} min="0" max="1" step="0.01" />
+      </label>
+    </div>
+    <div>
+      <label>
+        Show outlines:
+        <input type="checkbox" bind:checked={showVectorLayer} />
       </label>
     </div>
   </div>
@@ -176,7 +295,6 @@
 
   .controls > div {
     width: 100%;
-
   }
 
   .controls label {
