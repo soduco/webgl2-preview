@@ -24,14 +24,17 @@
   let baseLayer: TileLayer<XYZ>
   let warpedMapLayer: WarpedMapLayer
   let warpedMapSource: WarpedMapSource
-  let vectorLayer: VectorLayer<VectorSource>
-  let vectorSource: VectorSource
+
+  let vectorLayers: VectorLayer<VectorSource>[] = []
+  let vectorSources: VectorSource[] = []
 
   let opacity = 1
   let baseLayerOpacity = 1
   let backgroundColorThreshold = 0
   let backgroundColor = '#f2e7e0'
-  let showVectorLayer = false
+  let showVectorLayers = false
+
+  let layers = []
 
   $: {
     warpedMapLayer?.setOpacity(opacity)
@@ -46,10 +49,10 @@
   }
 
   $: {
-    vectorLayer?.setVisible(showVectorLayer)
+    // vectorLayer?.setVisible(showVectorLayer)
   }
 
-  async function addMapsByAnnotationUrl(annotationUrl: string) {
+  async function addMapsByAnnotationUrl(annotationUrl: string, vectorSource) {
     const annotationsResponse = await fetch(annotationUrl)
 
     const annotations = await annotationsResponse.json()
@@ -82,6 +85,30 @@
     }
   }
 
+  async function addLayer (layer) {
+    const vectorSource = new VectorSource()
+    const vectorLayer = new VectorLayer({
+      visible: false,
+      source: vectorSource,
+      style: vectorStyle
+    })
+
+    ol.addLayer(vectorLayer)
+
+    vectorLayers.push(vectorLayer)
+    vectorSources.push(vectorSource)
+
+    for (let annotationUrl of layer.annotationUrls) {
+      await addMapsByAnnotationUrl(annotationUrl, vectorSource)
+    }
+  }
+
+  function zoomToLayer (index) {
+    const vectorLayer = vectorLayers[index]
+    const extent = vectorLayer.getSource().getExtent()
+    ol.getView().fit(extent)
+  }
+
   async function addMapsByImageUri(imageUri: string) {
     const imageId = await generateId(imageUri)
     const apiUrl = `https://dev.api.allmaps.org/images/${imageId}/maps`
@@ -103,17 +130,6 @@
       maxZoom: 19
     })
 
-    vectorSource = new VectorSource()
-    vectorLayer = new VectorLayer({
-      visible: false,
-      source: vectorSource,
-      style: vectorStyle
-    })
-
-    const select = new Select({
-      style: selectedVectorStyle
-    })
-
     baseLayer = new TileLayer({
       source: xyzSource
     })
@@ -124,13 +140,17 @@
     })
 
     ol = new Map({
-      layers: [baseLayer, warpedMapLayer, vectorLayer],
+      layers: [baseLayer, warpedMapLayer],
       target: 'ol',
       view: new View({
         center: fromLonLat([-71.13, 42.2895]),
         maxZoom: 22,
         zoom: 17
       })
+    })
+
+    const select = new Select({
+      style: selectedVectorStyle
     })
 
     ol.addInteraction(select)
@@ -142,65 +162,12 @@
       window.open(url, '_blank').focus()
     })
 
+    layers = await fetch('layers.json')
+      .then((response) => response.json())
 
-    // const imageUris = [
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2164',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2165',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2166',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2167',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2168',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2169',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2170',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2171',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2172',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2173',
-    //   'https://cdm21033.contentdm.oclc.org/iiif/2/krt:2174'
-    // ]
-
-    // for (let imageUri of imageUris) {
-    //   addMapsByImageUri(imageUri)
-    // }
-
-    // Harold Fisk:
-
-    // const annotationUrls = [
-    //   'https://annotations.allmaps.org/images/ymS9BiCKaJcYBkHr',
-    //   'https://annotations.allmaps.org/images/TPpZfJeyYWphxewF',
-    //   'https://annotations.allmaps.org/images/V6rhqS3TzDyNc1Zt',
-    //   'https://annotations.allmaps.org/images/hn4sjDuY4c4uUyhn',
-    //   'https://annotations.allmaps.org/images/sLCbCnR1pvnT87gR',
-    //   'https://annotations.allmaps.org/images/dJt74pgVLfbVzGDU',
-    //   'https://annotations.allmaps.org/images/WrN23VDCjess1X13',
-    //   'https://annotations.allmaps.org/images/Hn9dszWSFuXuVbQE',
-    //   'https://annotations.allmaps.org/images/gv8pUvfRp7NWMEmU',
-    //   'https://annotations.allmaps.org/images/qB97cH8HSrhUHPPv',
-    //   'https://annotations.allmaps.org/images/Q2HffUx58TzieLDD',
-    //   'https://annotations.allmaps.org/images/EKzCKy1N6E8XVmqM',
-    //   'https://annotations.allmaps.org/images/NPC7MP8hKqwAyYUN',
-    //   'https://annotations.allmaps.org/images/DEGQ2MKKqVdxUkRb',
-    //   'https://annotations.allmaps.org/images/Ed7iQah4jzsdMj6W'
-    // ]
-
-    // Gebouwplattegronden Delft:
-
-    // const annotationUrls = [
-    //   'https://annotations.allmaps.org/images/AeaB5eDWFmFkJDRQ',
-    //   'https://annotations.allmaps.org/images/iH2T1TaK9jtUqXYv',
-    //   'https://annotations.allmaps.org/images/G2YwKP4kWP8837ib',
-    //   'https://annotations.allmaps.org/images/bazNtb9czeRYHyQK',
-    //   'https://annotations.allmaps.org/images/6izdrygmbAHRFDEW',
-    //   'https://annotations.allmaps.org/images/djpt1ua2KvTJtPAz'
-    // ]
-
-    // for (let annotationUrl of annotationUrls) {
-    //   await addMapsByAnnotationUrl(annotationUrl)
-    // }
-
-    // West-Roxbury:
-    await addMapsByAnnotationUrl('annotations.json')
-
-    const extent = vectorLayer.getSource().getExtent()
-    ol.getView().fit(extent)
+    for (let layer of layers) {
+      addLayer(layer)
+    }
   })
 
   function handleKeydown(event) {
@@ -224,6 +191,11 @@
 
 <footer>
   <div class="controls">
+    <h1>Preview of new render module for <a href="https://allmaps.org">Allmaps</a>:</h1>
+    <div>
+      Move map to {#each layers as layer, index}<button on:click={() => zoomToLayer(index)}>{layer.title}</button>{/each}
+    </div>
+    <hr />
     <div>
       <label>
         Opacity:
@@ -245,8 +217,8 @@
     </div>
     <div>
       <label>
-        Show outlines:
-        <input type="checkbox" bind:checked={showVectorLayer} />
+        Show image outlines:
+        <input type="checkbox" bind:checked={showVectorLayers} />
       </label>
     </div>
   </div>
@@ -284,19 +256,28 @@
     bottom: 0;
     padding: 5px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
   }
 
   .controls {
     padding: 5px;
-    width: 400px;
+    width: 500px;
     max-width: 100%;
     background: white;
     border-radius: 5px;
   }
 
+  .controls h1 {
+    font-size: 150%;
+    margin-top: 0;
+  }
+
   .controls > div {
     width: 100%;
+  }
+
+  .controls button {
+    margin-left: 5px;
   }
 
   .controls label {
