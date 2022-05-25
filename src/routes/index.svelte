@@ -26,7 +26,6 @@
   let warpedMapSource: WarpedMapSource
 
   let vectorLayers: VectorLayer<VectorSource>[] = []
-  let vectorSources: VectorSource[] = []
 
   let opacity = 1
   let baseLayerOpacity = 1
@@ -49,7 +48,9 @@
   }
 
   $: {
-    // vectorLayer?.setVisible(showVectorLayer)
+    for (let vectorLayer of vectorLayers) {
+      vectorLayer.setVisible(showVectorLayers)
+    }
   }
 
   async function addMapsByAnnotationUrl(annotationUrl: string, vectorSource) {
@@ -96,7 +97,6 @@
     ol.addLayer(vectorLayer)
 
     vectorLayers.push(vectorLayer)
-    vectorSources.push(vectorSource)
 
     for (let annotationUrl of layer.annotationUrls) {
       await addMapsByAnnotationUrl(annotationUrl, vectorSource)
