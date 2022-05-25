@@ -257,6 +257,7 @@
     padding: 5px;
     display: flex;
     justify-content: flex-end;
+    pointer-events: none;
   }
 
   .controls {
@@ -265,6 +266,7 @@
     max-width: 100%;
     background: white;
     border-radius: 5px;
+    pointer-events: auto;
   }
 
   .controls h1 {
