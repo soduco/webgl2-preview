@@ -4,6 +4,19 @@
     "annotationUrls": ["west-roxbury.json"]
   },
   {
+    "title": "Cambridge",
+    "annotationUrls": [
+      "https://annotations.allmaps.org/images/TeHuTumVdYYWdzZV",
+      "https://annotations.allmaps.org/images/c1YvzYwSJhHvbm15",
+
+      "https://annotations.allmaps.org/images/UHiajiTYBCuyQvLF",
+      "https://annotations.allmaps.org/images/ate4TfHNgPU5eQY4",
+      "https://annotations.allmaps.org/images/zGd26g9fD3uTx2t7",
+      "https://annotations.allmaps.org/images/L3jvRjD7tdtnAHZX",
+      "https://annotations.allmaps.org/images/ZBVVPbvRjRVijtJp"
+    ]
+  },
+  {
     "title": "Amsterdam",
     "annotationUrls": ["publieke-werken-1909.json"]
   },

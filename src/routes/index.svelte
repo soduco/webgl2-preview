@@ -262,7 +262,7 @@
 
   .controls {
     padding: 5px;
-    width: 500px;
+    width: 520px;
     max-width: 100%;
     background: white;
     border-radius: 5px;
