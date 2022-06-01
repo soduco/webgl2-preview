@@ -198,7 +198,7 @@
     <hr />
     <div>
       <label>
-        Opacity:
+        Opacity (press Space to toggle):
         <input type="range" bind:value={opacity} min="0" max="1" step="0.01" />
       </label>
     </div>
