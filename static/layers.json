@@ -4,51 +4,37 @@
     "annotationUrls": ["west-roxbury.json"]
   },
   {
-    "title": "Cambridge",
-    "annotationUrls": [
-      "https://annotations.allmaps.org/images/TeHuTumVdYYWdzZV",
-      "https://annotations.allmaps.org/images/c1YvzYwSJhHvbm15",
-
-      "https://annotations.allmaps.org/images/UHiajiTYBCuyQvLF",
-      "https://annotations.allmaps.org/images/ate4TfHNgPU5eQY4",
-      "https://annotations.allmaps.org/images/zGd26g9fD3uTx2t7",
-      "https://annotations.allmaps.org/images/L3jvRjD7tdtnAHZX",
-      "https://annotations.allmaps.org/images/ZBVVPbvRjRVijtJp"
-    ]
-  },
-  {
     "title": "Amsterdam",
     "annotationUrls": ["publieke-werken-1909.json"]
   },
   {
     "title": "Mississippi River",
     "annotationUrls": [
-      "https://annotations.allmaps.org/images/ymS9BiCKaJcYBkHr",
-      "https://annotations.allmaps.org/images/TPpZfJeyYWphxewF",
-      "https://annotations.allmaps.org/images/V6rhqS3TzDyNc1Zt",
-      "https://annotations.allmaps.org/images/hn4sjDuY4c4uUyhn",
-      "https://annotations.allmaps.org/images/sLCbCnR1pvnT87gR",
-      "https://annotations.allmaps.org/images/dJt74pgVLfbVzGDU",
-      "https://annotations.allmaps.org/images/WrN23VDCjess1X13",
-      "https://annotations.allmaps.org/images/Hn9dszWSFuXuVbQE",
-      "https://annotations.allmaps.org/images/gv8pUvfRp7NWMEmU",
-      "https://annotations.allmaps.org/images/qB97cH8HSrhUHPPv",
-      "https://annotations.allmaps.org/images/Q2HffUx58TzieLDD",
-      "https://annotations.allmaps.org/images/EKzCKy1N6E8XVmqM",
-      "https://annotations.allmaps.org/images/NPC7MP8hKqwAyYUN",
-      "https://annotations.allmaps.org/images/DEGQ2MKKqVdxUkRb",
-      "https://annotations.allmaps.org/images/Ed7iQah4jzsdMj6W"
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/b03c37e5-99ea-4550-b405-b16a99753803",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/438a181d-69b0-477d-9496-98e500833f99",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/1a079678-18d4-455c-ae23-d3ba06c31607",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/eb7e341d-0887-416c-bcd6-fea2684b55c4",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/ca464be3-9ebb-43cd-a85b-c0eed8634073",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/81143897-3ea7-42f3-97c3-e2a936c37026",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/3c3da1f8-ffab-40dd-a72e-0d41b8bae1a1",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/54dc4283-ca3c-478f-a40d-b886e478823f",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/12c287c9-baa2-42d3-b21f-81fbbb44bd66",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/32bf91c2-50bc-4e23-a58d-712ffff80b50",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/f57f62d6-7cd4-4d72-8707-b26458f54e50",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/d5a61d34-8534-4124-ac78-e00681e23d09",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/bf5f01d1-bb98-44c6-8f79-fc67830c6310",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/ecee9dca-ca63-4263-a271-c4d4a80357be",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/28/4f935976-fd94-410e-b5d4-012121f45a25"
     ]
   },
   {
     "title": "Delft",
     "annotationUrls": [
-      "https://annotations.allmaps.org/images/AeaB5eDWFmFkJDRQ",
-      "https://annotations.allmaps.org/images/iH2T1TaK9jtUqXYv",
-      "https://annotations.allmaps.org/images/G2YwKP4kWP8837ib",
-      "https://annotations.allmaps.org/images/bazNtb9czeRYHyQK",
-      "https://annotations.allmaps.org/images/6izdrygmbAHRFDEW",
-      "https://annotations.allmaps.org/images/djpt1ua2KvTJtPAz"
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/14/074a4598-5988-46a2-95f4-f8c625a1fcb3",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/14/f24b3681-c5d3-4134-a7be-52f30dba145a",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/14/8035a702-a217-487a-9bd0-cd5b864c7c88",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/14/c9a66aee-8923-46e3-8832-16d4445f967f",
+      "https://annotations.allmaps.org/?url=https://dlc.services/iiif-img/7/14/9a0ef3c0-e96d-410e-9b1b-74e67437c11c"
     ]
   }
 ]
