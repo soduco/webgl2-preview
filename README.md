@@ -10,7 +10,7 @@ docker build . -t svelte-docker
 
 Or
 
-- Build the image behind proxy
+- Build the image behind a proxy (you might also need to configure the docker client like presented [here](https://docs.docker.com/network/proxy/) to download pnpm while building the image)
 
 ```bash
 docker build . -t svelte-docker --build-arg http_proxy=http://your.proxy:3128 --build-arg https_proxy=http://your.proxy:3128
