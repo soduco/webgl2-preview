@@ -123,7 +123,7 @@
 
   onMount(async () => {
     const tileUrl =
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
 
     xyzSource = new XYZ({
       url: tileUrl,
@@ -143,7 +143,7 @@
       layers: [baseLayer, warpedMapLayer],
       target: 'ol',
       view: new View({
-        center: fromLonLat([-71.13, 42.2895]),
+        center: fromLonLat([2.3429, 48.8605]),
         maxZoom: 22,
         zoom: 17
       })

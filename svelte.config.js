@@ -17,7 +17,7 @@ const config = {
       precompress: false
     }),
     paths: {
-      base: dev ? '' : '/webgl2-preview'
+      base: dev ? '' : ''
     },
     prerender: {
       default: true
