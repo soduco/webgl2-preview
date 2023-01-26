@@ -15,10 +15,10 @@
       "motivation": "georeferencing",
       "target": {
         "type": "Image",
-        "source": "https://iiif.geohistoricaldata.org/iiif/3/ATLAS_NATIONAL_DE_LA_VILLE_DE_PARIS_RUMSEY_57.jp2/full/max/0/default.jpg",
+        "source": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~305684~90076054/full/max/0/default.jpg",
         "service": [
           {
-            "@id": "https://iiif.geohistoricaldata.org/iiif/3/ATLAS_NATIONAL_DE_LA_VILLE_DE_PARIS_RUMSEY_57.jp2",
+            "@id": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~305684~90076054",
             "type": "ImageService3"
           }
         ],
